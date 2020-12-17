@@ -1,6 +1,7 @@
 import { Component } from 'react'
 
-import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
+// 配置taro-ui全局引入一次即可 仅支持（微信/支付宝/百度/H5）
+import 'taro-ui/dist/style/index.scss'
 import './app.styl'
 
 class App extends Component {
