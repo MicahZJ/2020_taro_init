@@ -292,6 +292,7 @@ $ cnpm install -g @tarojs/cli@1.3.9
 在使用 Taro 进行多端开发中，请保持 Taro CLI 的版本与你项目的依赖版本一致，否则可能会出现编译错误或者运行时错误。
 
 如果你所使用的 Taro CLI 版本为 3.0.9，而项目里使用的依赖版本为 3.0.10，则有可能会出现问题，这时请将你的 Taro CLI 版本更新至项目依赖版本号相同的版本，如果还是出现问题，请向我们提出 [Issue](https://nervjs.github.io/taro-issue-helper/)。
+
 ## 配置taro ui
 ### 1.安装
 `npm install taro-ui`
@@ -352,3 +353,89 @@ $ npm run dev:h5
 $ taro build --type h5 --watch
 ### npx 用户也可以使用
 $ npx taro build --type h5 --watch
+
+## 配置mobx
+### 下包
+选择稳定版本
+`npm i -S mobx@4.8.0 mobx-react@6.1.4`
+### 配置mobx-1
+在app.js页面配置
+```
+import React, { Component } from 'react'
+import Taro from '@tarojs/taro'
+// 配置taro-ui全局引入一次即可 仅支持（微信/支付宝/百度/H5）
+import 'taro-ui/dist/style/index.scss'
+
+import { Provider } from 'mobx-react'
+import AppStore from './store/index'
+
+import './app.styl'
+
+class App extends Component {
+
+  componentDidMount () {}
+
+  componentDidShow () {}
+
+  componentDidHide () {}
+
+  componentDidCatchError () {}
+
+  // this.props.children 是将要会渲染的页面
+  render () {
+    return (
+      <Provider {...AppStore}>
+        {this.props.children}
+      </Provider>
+    )
+  }
+}
+
+export default App
+
+```
+### 配置mobx-2
+这里我设置的是单个页面配置一个store，一个主页引入所有的子页面store
+在src文件夹下新建store文件夹，并建立index.js
+```
+import IndexPage from '../pages/index/store';
+
+class AppStore {
+  constructor () {
+    this.indexStore = new IndexPage(this);
+  }
+}
+
+export default new AppStore()
+
+```
+子页面配置store
+```
+import { action, observable, computed, runInAction } from 'mobx';
+
+export default class Store {
+  constructor () {
+  }
+
+  @observable  overviewData = 1;
+
+  @action
+  increment() {
+    this.overviewData++
+  }
+
+  @action
+  decrement() {
+    this.overviewData--
+  }
+
+  @action
+  incrementAsync() {
+    setTimeout(() => this.overviewData++, 1000)
+  }
+  // @computed get c () {
+  // }
+
+}
+
+```
