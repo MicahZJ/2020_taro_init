@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text } from '@tarojs/components'
 import './index.styl'
+// import PropTypes from "prop-types";
 
-export default class Index extends Component {
+export default class Confirm extends Component {
   constructor (props) {
     super(props);
   }
@@ -25,3 +26,6 @@ export default class Index extends Component {
     )
   }
 }
+
+Confirm.propTypes = {
+};
